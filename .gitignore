@@ -1,0 +1,10 @@
+.idea/
+.vscode/
+env/
+.venv/
+/.env
+__pycache__/
+*/migrations
+db.sqlite3
+
+big_data.csv

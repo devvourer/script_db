@@ -1,6 +1,22 @@
+from django.conf import settings
+
 from ..models import CsvData, Contact
 
+import openpyxl
 import csv
+
+def print_row():
+    print(f"{settings.BASE_DIR}\pochta_orders1.xlsx")
+
+    dataframe = openpyxl.load_workbook(f"{settings.BASE_DIR}\pochta_orders1.xlsx")
+
+    # Define variable to read sheet
+    dataframe1 = dataframe.active
+    
+    # Iterate the loop to read the cell values
+    for row in range(0, 100):
+        for col in dataframe1.iter_cols(1, dataframe1.max_column):
+            print(col[row].value)
 
 
 class Service:
@@ -35,3 +51,16 @@ class Service:
             count += 1
 
         Contact.objects.bulk_create(data)
+
+    def test(self):
+        with open(f'{settings.BASE_DIR}/pochta_orders1', 'r', encoding='utf-8') as f:
+            lines = f.readlines(300000)
+            with open(f"{settings.BASE_DIR}/new_data", 'w', encoding='UTF-8') as new:
+                for line in lines:
+
+                    new.write(line)
+
+            for line in lines:
+                print(line)
+
+

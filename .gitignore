@@ -8,3 +8,7 @@ __pycache__/
 db.sqlite3
 
 big_data.csv
+new_data
+pochta_orders1
+fields_from_pochta.txt
+venv

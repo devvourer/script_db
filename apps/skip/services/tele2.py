@@ -1,28 +1,14 @@
 from django.conf import settings
 
-from ..models import CsvData, Contact
+from ..models import Tele2File, Tele2
 
-import openpyxl
 import csv
-
-def print_row():
-    print(f"{settings.BASE_DIR}\pochta_orders1.xlsx")
-
-    dataframe = openpyxl.load_workbook(f"{settings.BASE_DIR}\pochta_orders1.xlsx")
-
-    # Define variable to read sheet
-    dataframe1 = dataframe.active
-    
-    # Iterate the loop to read the cell values
-    for row in range(0, 100):
-        for col in dataframe1.iter_cols(1, dataframe1.max_column):
-            print(col[row].value)
 
 
 class Service:
 
     def get_data_from_csv(self):
-        file: CsvData = CsvData.objects.first()
+        file: Tele2File = Tele2File.objects.first()
 
         with open(f'{file.file.path}', 'r') as f:
             csv_reader = csv.reader(f)
@@ -42,23 +28,23 @@ class Service:
         count = 0
         for i in self.get_data_from_csv():
             if count > 1000:
-                Contact.objects.bulk_create(data)
+                Tele2.objects.bulk_create(data)
                 data = []
                 count = 0
 
-            data.append(Contact(phone=i[0], name=i[1][1], surname=i[1][0], patronymic=i[1][2]))
+            data.append(Tele2(phone=i[0], name=i[1][1], surname=i[1][0], patronymic=i[1][2], act_date='2022-08-08'))
 
             count += 1
 
-        Contact.objects.bulk_create(data)
+        Tele2.objects.bulk_create(data)
 
     def test(self):
         with open(f'{settings.BASE_DIR}/pochta_orders1', 'r', encoding='utf-8') as f:
-            lines = f.readlines(300000)
-            with open(f"{settings.BASE_DIR}/new_data", 'w', encoding='UTF-8') as new:
+            lines = f.readlines(30000)
+            with open(f"{settings.BASE_DIR}/new_data.txt", 'w', encoding='UTF-8') as new:
                 for line in lines:
 
-                    new.write(line)
+                    new.write(line + '\n')
 
             for line in lines:
                 print(line)

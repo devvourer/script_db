@@ -1,7 +1,10 @@
 from django.contrib import admin
 
-from .models import CsvData, Contact
+from .models import Tele2File, Tele2, YandexFile, Yandex, YandexBad
 
 
-admin.site.register(CsvData)
-admin.site.register(Contact)
+admin.site.register(Tele2File)
+admin.site.register(Tele2)
+admin.site.register(Yandex)
+admin.site.register(YandexBad)
+admin.site.register(YandexFile)

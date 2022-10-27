@@ -5,11 +5,9 @@ from ..models import Tele2File, Tele2
 import csv
 
 
-class Service:
+class Tele2Service:
 
-    def get_data_from_csv(self):
-        file: Tele2File = Tele2File.objects.first()
-
+    def get_data_from_csv(self, file: Tele2File):
         with open(f'{file.file.path}', 'r') as f:
             csv_reader = csv.reader(f)
 
@@ -23,16 +21,16 @@ class Service:
                         fio.append('')
                     yield [data[0], fio]
 
-    def get_objects(self):
+    def get_content(self, file: Tele2File):
         data = []
         count = 0
-        for i in self.get_data_from_csv():
+        for i in self.get_data_from_csv(file):
             if count > 1000:
                 Tele2.objects.bulk_create(data)
                 data = []
                 count = 0
 
-            data.append(Tele2(phone=i[0], name=i[1][1], surname=i[1][0], patronymic=i[1][2], act_date='2022-08-08'))
+            data.append(Tele2(phone=i[0], name=i[1][1], surname=i[1][0], patronymic=i[1][2], act_date=file.act_date))
 
             count += 1
 

@@ -1,5 +1,4 @@
 from django.db import models
-from django.conf import settings
 
 
 class Tele2(models.Model):
@@ -13,10 +12,20 @@ class Tele2(models.Model):
         verbose_name = 'Теле2'
         verbose_name_plural = 'Теле2 данные'
 
+    def __str__(self):
+        return f'{self.pk} {self.surname} {self.name}'
+
 
 class Tele2File(models.Model):
-    file = models.FileField()
+    file = models.FileField(upload_to='tele2_files')
     act_date = models.DateField()
+
+    class Meta:
+        verbose_name = 'Файл с данными теле2'
+        verbose_name_plural = 'Файлы с данными теле2'
+
+    def __str__(self):
+        return f'{self.pk} {self.act_date}'
 
 
 class Yandex(models.Model):
@@ -37,6 +46,9 @@ class Yandex(models.Model):
         verbose_name = 'Яндекс данные'
         verbose_name_plural = 'Яндекс данные'
 
+    def __str__(self):
+        return f'{self.pk} {self.surname} {self.first_name}'
+
 
 class YandexBad(models.Model):
     y_id = models.IntegerField(null=True, verbose_name='Id в яндекс')
@@ -56,6 +68,9 @@ class YandexBad(models.Model):
         verbose_name = 'Яндекс не валидные данные'
         verbose_name_plural = 'Яндекс не валидные данные'
 
+    def __str__(self):
+        return f'{self.pk} {self.y_id}'
+
 
 class YandexFile(models.Model):
     class FileType(models.TextChoices):
@@ -66,3 +81,9 @@ class YandexFile(models.Model):
     file_type = models.CharField(choices=FileType.choices, max_length=14)
     act_date = models.DateField()
 
+    class Meta:
+        verbose_name = 'Файл с данными яндекса'
+        verbose_name_plural = 'Файлы с данными яндекса'
+
+    def __str__(self):
+        return f'{self.pk} {self.file_type} : {self.act_date}'

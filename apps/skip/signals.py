@@ -2,19 +2,18 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from .models import YandexFile, Tele2File
-from .services.yandex import Service, ServiceNoAddress
+from .tasks import get_content_from_yandex_task, get_content_from_tele2_task
 
 
 @receiver(post_save, sender=YandexFile)
-def get_content_from_file(sender, instance, created, **kwargs):
+def get_content_from_yandex(sender, instance, created, **kwargs):
     if created:
-        if instance.file_type == YandexFile.FileType.with_address:
-            Service().get_content(instance)
-        else:
-            ServiceNoAddress().get_content(instance)
+        get_content_from_yandex_task.apply_async((instance.pk,), countdown=5)
 
 
 @receiver(post_save, sender=Tele2File)
-def get_content_from_file(sender, instance, created, **kwargs):
+def get_content_from_tele2(sender, instance, created, **kwargs):
     if created:
-        Service().get_content(instance)
+        get_content_from_tele2_task.apply_async((instance.pk,), countdown=5)
+
+

@@ -125,7 +125,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_ALLOW_ALL = True
-CSRF_TRUSTED_ORIGINS = ['https://998b-77-235-29-177.eu.ngrok.io']
+CSRF_TRUSTED_ORIGINS = ['https://eeb0-77-235-29-177.in.ngrok.io']
 
 
 CELERY_BROKER_URL = 'redis://localhost:6379'

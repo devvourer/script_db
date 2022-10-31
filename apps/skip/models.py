@@ -87,3 +87,21 @@ class YandexFile(models.Model):
 
     def __str__(self):
         return f'{self.pk} {self.file_type} : {self.act_date}'
+
+
+class Pochta(models.Model):
+    name = models.CharField(max_length=100, null=True, verbose_name='Имя')
+    surname = models.CharField(max_length=50, verbose_name='Фамилия', null=True)
+    patronymic = models.CharField(max_length=50, verbose_name='Отчество', null=True)
+    address = models.CharField(max_length=100, null=True, verbose_name='Адрес')
+    home_phone = models.CharField(max_length=30, null=True, verbose_name='Домашний телефон')
+    arrival_local_dts = models.DateField(verbose_name='Дата получения данных')
+
+    class Meta:
+        verbose_name = 'Данные почты'
+        verbose_name_plural = 'Данные почты'
+
+
+class PochtaFile(models.Model):
+    file = models.FileField(upload_to='pochta_file')
+    act_date = models.DateField()
